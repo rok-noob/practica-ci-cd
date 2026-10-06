@@ -1,0 +1,20 @@
+name: Workflow Principal de Despliegue Multientorno
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  call-ci-workflow:
+    uses: ./.github/workflows/reusable-ci.yml
+    with:
+      node-version: '["18", "20", "22"]'
+
+  deploy:
+    needs: call-ci-workflow
+    runs-on: ubuntu-latest
+    steps:
+      - name: Desplegar a Producción
+        run: echo "Desplegando la aplicación a producción..."
